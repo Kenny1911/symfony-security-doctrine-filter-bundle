@@ -1,0 +1,34 @@
+{
+    "name": "kenny1911/symfony-security-doctrine-filter-bundle",
+    "type": "symfony-bundle",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Kenny1911",
+            "email": "o-muzyka@mail.ru"
+        }
+    ],
+    "minimum-stability": "stable",
+    "config": {
+        "sort-packages": true
+    },
+    "require": {
+        "php": "^8.1",
+        "doctrine/doctrine-bundle": "^2.10",
+        "doctrine/orm": "^2.11 || ^3.0",
+        "symfony/security-bundle": "^5.4 || ^6.0 || ^7.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^11.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "Kenny1911\\SymfonySecurityDoctrineFilterBundle\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Kenny1911\\SymfonySecurityDoctrineFilterBundle\\Tests\\": "tests/"
+        }
+    }
+}
