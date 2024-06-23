@@ -8,6 +8,7 @@ use InvalidArgumentException;
 use Kenny1911\SymfonySecurityDoctrineFilterBundle\Security\Doctrine\AccessFilter\BaseFilter;
 use Kenny1911\SymfonySecurityDoctrineFilterBundle\Security\Doctrine\AccessFilter\FilterCondition;
 use Kenny1911\SymfonySecurityDoctrineFilterBundle\Security\Doctrine\AccessFilter\FilterSubject;
+use Kenny1911\SymfonySecurityDoctrineFilterBundle\Security\Doctrine\AccessFilter\ReadableQueryBuilder;
 use Kenny1911\SymfonySecurityDoctrineFilterBundle\Tests\Bootstrap\Entity\Shop;
 use Kenny1911\SymfonySecurityDoctrineFilterBundle\Tests\Bootstrap\Entity\User;
 
@@ -16,7 +17,7 @@ final class ShopFilter extends BaseFilter
     public const ATTRIBUTE_SHOP_READ = 'shop.read';
     public const ATTRIBUTE_SHOP_EDIT = 'shop.edit';
 
-    protected function supports(string $attribute, FilterSubject $subject, mixed $user): bool
+    protected function supports(string $attribute, ReadableQueryBuilder $qb, FilterSubject $subject, mixed $user): bool
     {
         return in_array($attribute, [self::ATTRIBUTE_SHOP_READ, self::ATTRIBUTE_SHOP_EDIT], true)
             && Shop::class === $subject->getClassName()
@@ -24,7 +25,7 @@ final class ShopFilter extends BaseFilter
         ;
     }
 
-    protected function doApply(string $attribute, FilterSubject $subject, mixed $user): array
+    protected function doApply(string $attribute, ReadableQueryBuilder $qb, FilterSubject $subject, mixed $user): array
     {
         if (!$user instanceof User) {
             throw new InvalidArgumentException('Invalid user.');
