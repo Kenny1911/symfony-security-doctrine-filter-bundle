@@ -7,6 +7,7 @@ namespace Kenny1911\SymfonySecurityDoctrineFilterBundle\Security\Doctrine\Access
 use Doctrine\ORM\Query\Expr;
 use Doctrine\ORM\Query\Parameter;
 use Doctrine\ORM\QueryBuilder;
+use Kenny1911\SymfonySecurityDoctrineFilterBundle\Security\Doctrine\AccessFilter\Exception\InvalidQueryBuilderTypeException;
 
 final class DoctrineOrmFilterManager implements FilterManager
 {
@@ -23,6 +24,10 @@ final class DoctrineOrmFilterManager implements FilterManager
 
     public function filter(string $attribute, QueryBuilder $qb, FilterSubject $subject, mixed $user): void
     {
+        if (!str_starts_with($qb->getDQL(), 'SELECT ')) {
+            throw new InvalidQueryBuilderTypeException('Invalid query type. Expected SELECT.');
+        }
+
         /** @var list<Expr\Join> $joins */
         $joins = [];
 
