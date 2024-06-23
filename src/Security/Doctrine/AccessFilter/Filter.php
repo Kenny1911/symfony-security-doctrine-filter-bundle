@@ -9,5 +9,5 @@ interface Filter
     /**
      * @return list<FilterCondition>
      */
-    public function apply(string $attribute, FilterSubject $subject, mixed $user): array;
+    public function apply(string $attribute, ReadableQueryBuilder $qb, FilterSubject $subject, mixed $user): array;
 }

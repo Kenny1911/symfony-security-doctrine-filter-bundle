@@ -38,8 +38,9 @@ final class DoctrineOrmFilterManager implements FilterManager
         $parameters = [];
 
         // Get joins, conditions and parameters from filters
+        $readQb = new ReadableQueryBuilder($qb);
         foreach ($this->filters as $filter) {
-            foreach ($filter->apply($attribute, $subject, $user) as $filterCondition) {
+            foreach ($filter->apply($attribute, $readQb, $subject, $user) as $filterCondition) {
                 $joins = array_merge($joins, $filterCondition->joins);
                 $conditions[] = $filterCondition->condition;
                 $parameters = array_merge($parameters, $filterCondition->parameters);
