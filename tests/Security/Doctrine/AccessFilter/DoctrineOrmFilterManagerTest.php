@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Kenny1911\SymfonySecurityDoctrineFilterBundle\Tests\Security\Doctrine\AccessFilter;
 
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Exception\ORMException;
 use Doctrine\ORM\OptimisticLockException;
 use Exception;
@@ -28,11 +29,13 @@ final class DoctrineOrmFilterManagerTest extends TestCase
     public function test(string $attribute, int $userId, array $expectedShopIds, string $expectedDQL): void
     {
         // Bootstrap
-        $em = Bootstrap::initDb();
-        Bootstrap::fillDb($em);
+        $doctrine = Bootstrap::initDb();
+        Bootstrap::fillDb($doctrine);
         $filterManager = new DoctrineOrmFilterManager([new ShopFilter()]);
 
         // Prepare data
+        /** @var EntityManagerInterface $em */
+        $em = $doctrine->getManager();
         $qb = $em->createQueryBuilder()->from(Shop::class, 's')->select('s');
         $user = $em->find(User::class, $userId) ?? throw new Exception('User not found.');
 

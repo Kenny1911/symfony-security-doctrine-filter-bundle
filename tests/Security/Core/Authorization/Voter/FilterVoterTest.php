@@ -35,11 +35,14 @@ final class FilterVoterTest extends TestCase
     public function test(int $expectedAccess, int $userId, int $shopId, string $attribute): void
     {
         // Bootstrap
-        $em = Bootstrap::initDb();
-        Bootstrap::fillDb($em);
-        $voter = new FilterVoter($em, new DoctrineOrmFilterManager([new ShopFilter()]), false);
+        $doctrine = Bootstrap::initDb();
+        Bootstrap::fillDb($doctrine);
+
+        // Init voter
+        $voter = new FilterVoter($doctrine, new DoctrineOrmFilterManager([new ShopFilter()]), false);
 
         // Prepare data
+        $em = $doctrine->getManager();
         $user = $em->find(User::class, $userId) ?? throw new Exception('User not found.');
         $token = $this->createToken($user);
         $shop = $em->find(Shop::class, $shopId) ?? throw new Exception('Shop not found.');
@@ -83,11 +86,14 @@ final class FilterVoterTest extends TestCase
     public function testInvalidSubject(mixed $subject): void
     {
         // Bootstrap
-        $em = Bootstrap::initDb();
-        Bootstrap::fillDb($em);
-        $voter = new FilterVoter($em, new DoctrineOrmFilterManager([new ShopFilter()]), false);
+        $doctrine = Bootstrap::initDb();
+        Bootstrap::fillDb($doctrine);
+
+        // Init voter
+        $voter = new FilterVoter($doctrine, new DoctrineOrmFilterManager([new ShopFilter()]), false);
 
         // Prepare data
+        $em = $doctrine->getManager();
         $user = $em->find(User::class, 1) ?? throw new Exception('User not found.');
         $token = $this->createToken($user);
 
@@ -106,7 +112,7 @@ final class FilterVoterTest extends TestCase
     {
         return [
             'subject is not object type' => ['invalid subject'],
-            'subject is not doctrine entity' => [new stdClass()]
+            'subject is not doctrine entity' => [new stdClass()],
         ];
     }
 
