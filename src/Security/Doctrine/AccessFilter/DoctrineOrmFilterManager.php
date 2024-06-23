@@ -56,6 +56,7 @@ final class DoctrineOrmFilterManager implements FilterManager
 
         // Add parameters
         foreach ($parameters as $parameter) {
+            /** @psalm-suppress MixedArgument */
             $qb->setParameter($parameter->getName(), $parameter->getValue(), $parameter->getType());
         }
     }
